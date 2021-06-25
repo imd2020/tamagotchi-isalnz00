@@ -10,7 +10,7 @@ export default class Button {
   display() {
     push();
     translate(this.x, this.y);
-    textFont("Lucida Console");
+    textFont("Lucida Console Heavy");
     this.displayButton();
     pop();
   }

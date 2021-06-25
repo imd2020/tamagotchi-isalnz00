@@ -1,6 +1,6 @@
 import Button from "./Button.js";
 
-export default class ControlsButton extends Button {
+export default class StartButton extends Button {
   constructor(x, y, text) {
     super(x, y, 150, 40, text);
     this.width = 300;
@@ -13,7 +13,7 @@ export default class ControlsButton extends Button {
 
     textSize(40);
     textFont("Voyager heavy");
-    fill("black");
+    fill("white");
     textAlign(CENTER, CENTER);
     text(this.text, this.width / 2, this.height / 2 - 5);
   }

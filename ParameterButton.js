@@ -7,6 +7,7 @@ export default class ParameterButton extends Button {
     this.game = true;
   }
   displayButton() {
+    //makes visible how parameter values are decreasing
     this.coloredButton();
     strokeWeight(2);
     stroke(76, 198, 227);
@@ -22,15 +23,12 @@ export default class ParameterButton extends Button {
     fill("white");
     textAlign(CENTER, CENTER);
     text(this.text, this.width / 2, this.height / 2);
-
-    //this.update();
   }
   coloredButton() {
     //shows parameter value
     push();
     noStroke();
     fill("#fc6c85");
-    //fill(76, 198, 227);
     rect(0, 0, this.update(), this.height);
     pop();
   }

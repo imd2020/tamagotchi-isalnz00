@@ -1,7 +1,8 @@
 import Pet from "./Pet.js";
 import ParameterButton from "./ParameterButton.js";
 import ActionButton from "./ActionButton.js";
-import ControlsButton from "./ControlsButton.js";
+import StartButton from "./StartButton.js";
+// import gsap from "./gsap.min.js";
 import Screens from "./Screens.js";
 
 //Instanzieren von Objekten
@@ -10,8 +11,8 @@ let createParameterHunger = new ParameterButton(45, 60, "Hunger");
 let createParameterSleepiness = new ParameterButton(225, 60, "Sleepiness");
 let createParameterBoredom = new ParameterButton(405, 60, "Boredom");
 
-//Game Control Buttons
-let StartGameButton = new ControlsButton(150, 350, "START");
+//Start Button
+let StartGameButton = new StartButton(150, 370, "START");
 //Action Buttons
 let ActionFeed = new ActionButton(350, 200, "Feed Groot");
 let ActionSleep = new ActionButton(350, 260, "Bring Groot to bed");
@@ -20,16 +21,17 @@ let ActionMusic = new ActionButton(350, 320, "Play with Groot");
 //Create Screens
 let createScreens = new Screens(0, 0, "Start");
 
-function draw() {
-  GameScreen();
-  changeEmotion();
-
-  console.log(createScreens.gameState);
+// Welcome Screen Animation
+function welcomeAnimation() {
+  createScreens.firstAnimationMessage();
+  createScreens.secondAnimationMessage();
 }
+
+//Click to continue Animation
+createScreens.animationClick();
 
 function GameScreen() {
   console.log(createScreens.gameState);
-  // background(80, 100, 160);
 
   //Create Screen
   createScreens.display();
@@ -91,9 +93,6 @@ function changeEmotion() {
     createParameterSleepiness.valueWidth <= 45 &&
     createParameterBoredom.valueWidth > 1 &&
     createParameterBoredom.valueWidth <= 45
-    // (createParameterHunger.valueWidth === 1 &&
-    //   createParameterSleepiness.valueWidth === 1 &&
-    //   createParameterBoredom.valueWidth === 1)
   ) {
     createPet.moodSwitch = "Sad";
   }
@@ -113,7 +112,8 @@ function changeEmotion() {
       createParameterBoredom.valueWidth <= 45)
   ) {
     createPet.moodSwitch = "Sad";
-  } else if (
+  } //show normal Groot
+  else if (
     createParameterHunger.valueWidth > 45 &&
     createParameterHunger.valueWidth <= 120 &&
     createParameterSleepiness.valueWidth > 45 &&
@@ -122,19 +122,13 @@ function changeEmotion() {
     createParameterBoredom.valueWidth <= 120
   ) {
     createPet.moodSwitch = "Normal";
-    console.log("Parameter too different");
-  } else if (
-    createParameterHunger.valueWidth === 1 &&
-    createParameterSleepiness.valueWidth === 1 &&
-    createParameterBoredom.valueWidth === 1
-  ) {
-    clear();
   }
 }
 
 function mouseClicked() {
-  //Parameter value verändern
+  //Changing parameter value
 
+  //Action Buttons work if parameter value is greater than 0
   // Action click on Feed Button
   if (
     ActionFeed.hitTest() &&
@@ -161,19 +155,20 @@ function mouseClicked() {
     createParameterSleepiness.valueWidth += 10;
     console.log("Bring groot to bed" + " " + createPet.sleepiness);
   }
-  if (createScreens.gameState === "Intro") {
-    //console.log("Parameter verändern");
+  if (createScreens.gameState === "Welcome") {
+    createScreens.gameState = "Intro";
+  } else if (createScreens.gameState === "Intro") {
     createScreens.gameState = "Intro2";
     console.log("Screen Wechsel");
 
     clear();
   } else if (createScreens.gameState === "Intro2") {
     createScreens.gameState = "Start";
+    welcomeAnimation();
     console.log("Last Intro Screen");
   }
   //RESET ALL VARIALBLES TO START
   else if (createScreens.gameState === "Start" && StartGameButton.hitTest()) {
-    //console.log("Parameter verändern");
     createScreens.gameState = "GameIsRunning";
     console.log("Let's start this journey");
     createParameterHunger.game = true;
@@ -183,7 +178,7 @@ function mouseClicked() {
 
     clear();
   } else if (createScreens.gameState === "GameIsRunning") {
-    //if parameter values are all 10, groot dies and End Screen appears
+    //if parameter values reach all 0, groot dies and End Screen appears
     console.log("Care for Groot");
     clear();
   } else if (createScreens.gameState === "GameOver") {
@@ -198,5 +193,12 @@ function mouseClicked() {
   }
 }
 
+function draw() {
+  GameScreen();
+  changeEmotion();
+
+  //console.log(createScreens.gameState);
+  // console.log(createPet.myCounter);
+}
 window.draw = draw;
 window.mouseClicked = mouseClicked;

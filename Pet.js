@@ -5,17 +5,25 @@ export default class Pet {
     this.width = w;
     this.height = h;
 
-    // this.name = name;
-    // this.hunger = hunger;
-    // this.sleepiness = sleepiness;
-    // this.boredom = boredom;
+    //Counter
+    this.myCounter = 0;
+
     this.moodSwitch = "Happy";
+    //little Groot
+    this.grootLittle = loadImage("Groot-Normal-Klein.png");
+    this.grootLittleHappy = loadImage("Groot-Happy-Klein.png");
+    this.grootLittleSad = loadImage("Groot-Sad-Klein.png");
+    //bigger Groot
     this.groot = loadImage("Groot-Normal-colors.png");
     this.grootHappy = loadImage("Groot-Happy-colors.png");
     this.grootSad = loadImage("Groot-Sad-colors.png");
   }
   display() {
     push();
+    if (this.myCounter >= 60) {
+      this.myCounter = 0;
+    }
+    this.myCounter += 1 / 30;
     translate(this.x, this.y);
     this.displayBody();
     pop();
@@ -24,7 +32,6 @@ export default class Pet {
   displayBody() {
     //Mood changes
     if (this.moodSwitch === "Normal") {
-      // console.log("Normal happy groot");
       this.displayNormalMood();
     } else if (this.moodSwitch === "Sad") {
       this.displaySadMood();
@@ -34,15 +41,27 @@ export default class Pet {
   }
   displayNormalMood() {
     //insert Normal Groot png
-    image(this.groot, 0, 0, this.width, this.height);
+    if (this.myCounter <= 25) {
+      image(this.grootLittle, 0, 0, 1233 / 5, 1681 / 5);
+    } else {
+      image(this.groot, 0, 0, this.width, this.height);
+    }
   }
 
   displayHappyMood() {
     //insert Happy Groot png
-    image(this.grootHappy, 0, 0, this.width, this.height);
+    if (this.myCounter <= 25) {
+      image(this.grootLittleHappy, 0, 0, 1233 / 5, 1681 / 5);
+    } else {
+      image(this.grootHappy, 0, 0, this.width, this.height);
+    }
   }
   displaySadMood() {
     //insert Sad Groot png
-    image(this.grootSad, 0, 0, this.width, this.height);
+    if (this.myCounter <= 25) {
+      image(this.grootLittleSad, 0, 0, 1233 / 5, 1681 / 5);
+    } else {
+      image(this.grootSad, 0, 0, this.width, this.height);
+    }
   }
 }
